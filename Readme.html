@@ -1,0 +1,139 @@
+<html>
+<head><title>ROTT Isometric Mapper and WAD Extractor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+
+body{
+    font-family: sans-serif;
+    margin: 3em;
+    max-width: 100em;
+}
+
+
+a { text-decoration: none;}
+
+a:visited{
+    color: #1555AA;
+}
+
+a:link{
+    color: #1555AA;
+}
+
+a:hover{
+    color: #48F;
+}
+
+h1 {
+    font-size: 3em;
+    margin: 0;
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #248;
+    font-weight: normal;
+    margin: 1em 0 0.5em;
+}
+
+
+h3, h4, h5, h6{
+    color: #248;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.6em;
+}
+
+h4
+{
+    font-size: 1.4em;
+}
+
+h5 {
+    font-size: 1.2em;
+}
+
+h6 {
+    font-size: 1.0em;
+}
+
+
+</style>
+</head>
+<body>
+<h1>ROTT Isometric Mapper and WAD Extractor</h1>
+
+<h2>About and Dependencies</h2>
+
+<p>This is a series of Python scripts to generate Isometric views of Rise of the Triad maps, as well as extract the complete contents of DARKWAR.WAD. These scripts require <a href="http://www.pythonware.com/products/pil/index.htm">the Python Imaging Library (PIL)</a> and <a href="http://python.org/">Python 2.x</a> (tested with Python 2.7.3). PIL unfortunately does not yet support Python 3, which prevents these scripts from being forward-compatible at this time.
+
+<p>Windows users should be able to download Python and PIL from the above links. Most Linux/Unix varients should be able to install Python and PIL via your package manager of choice; Ubuntu users can install the <strong>python</strong> and <strong>python-imaging</strong> libraries. OSX users should already have Python, but you may need to compile PIL yourself via the source download at the PIL website.
+
+<p>The scripts also obviously require <strong>Rise of the Triad: Dark War</strong>, which can be purchased from either <a href="http://www.3drealms.com/rott/">3D Realms</a> or <a href="http://www.gog.com/en/gamecard/rise_of_the_triad__dark_war">GOG.com</a>. For the mapping scripts, <strong>DARKWAR.WAD</strong> must be in the current directory.
+
+<h2>Usage</h2>
+
+<p>There are three scripts included in the package that are intended to be executed directly.
+<strong>rottmapper.py</strong> is the main isometric mapper script,
+<strong>rottdebugmapper.py</strong> is a script to generate debug maps containing all the original wall/sprite/info values, and <strong>wad.py</strong> is a script to extract the complete contents of a ROTT wad file. In addition to the three scripts above, <strong>rtl.py</strong> can also be run directly to generate a simple black and white pixel image of a level, but this is not its primary purpose.
+
+<h3>rottmapper.py</h3>
+<strong>python rottmapper.py [RTL/RTC FILE] ([Level Num])</strong>
+
+<p>Generates PNG isometric map images based on the specified ROTT RTL or
+RTC file. If [Level Num] is specified, this will only generate a map
+for the indicated level. Otherwise, maps for every level in the RTL/RTC
+will be generated.
+
+<p>This tool requires DARKWAR.WAD from the registered version of ROTT
+to be present in the current directory. Note that on case-sensitive file
+systems the file name must also be uppercase.
+<h3>rottdebugmapper.py</h3>
+<strong>python rottdebugmapper.py [RTL/RTC FILE]...</strong>
+
+<p>Generates a debug HTML file for each level in the specified ROTT RTL or
+RTC file. Each index in the map is output into a cell in an HTML table
+containing the following information:
+<ul>
+<li>The map index
+<li>The data in the walls layer, if present, as W###
+<li>The data in the info layer, if present, as I###
+<li>The data in the sprite layer, if present, as S###
+</ul>
+<h3>wad.py</h3>
+<strong>python wad.py [WAD FILE]</strong>
+
+<p>Extracts the complete contents of a give ROTT wad file. Currently only
+supports DARKWAR.WAD. All images will be written as PNG files,
+other data will remain in its original format (e.g. .mid for music,
+.voc for SFX). Unidentified data will be written with no extension.
+
+<h2>Notes</h2>
+<p>I am not much of a pixel artist, so any tiles/icons that are not in the Rise of Triad wad file are rendered as solid colour shapes using PIL's drawing capabilities. If anyone wants to contribute some additional artwork to the project, it would be appreciated. However, the existing images do their job fairly well and don't look too much out of place.
+
+<p>Since isometric perspective can obscure certain items from view, I implemented an algorithm to detect this and draw important items above their space with a line pointing downwards. The algorithm is a bit sensitive for items that are partially obscured (i.e. wall over left half of area), but I considered this more important than having a difficult-to-find item. If I get enough feedback about this, I may consider introducing some sort of threshold and sizing metrics to decide when something isn't really obscured. Important items consist of:
+<ul>
+<li>Player Start
+<li>All Weapons
+<li>All Power-Ups, including the Random Powerup, but not Power-Downs
+<li>More Potent health pickups (Priest Porrage, Large Monk Crystals, Healing Basins) and 50 point pickups
+<li>All Bosses and Secret Items (excluding Scott Miller's head, as that only shows up one in the standard levels and is only partially obscured in that case)
+<li>The collectable triads in Comm-bat levels
+</ul>
+<p>Keys are always marked with the key icon and a line pointing to their location, whether they are obscured or not.
+
+<p>Switch links are also indicated on the map. Switches are marked yellow letter and activate any items indicated by the same letter in teal. Timed objects are marked instead with the time interval in mm:ss that they are active (e.g.: 03:00 to 05:00). Elevators are represented in a similar fashion, in green text. Any elevators with the same number are linked to each other.
+
+<p>The cluster of guards that appears on most maps represents a random enemy spawn point. These are used all over. In the shareware and episode 1, the guards in that group represent the most commonly spawned results. In Episodes 2 and 3, the Strike Guard and Triad Enforcer can also show up. In Episode 4, this will spawn mostly Monks.
+
+<p>Enemies can also have a few characters denoting with particular characteristics. Enemies marked with a <b>^</b> will only show up in the hardest difficulty. Enemies marked with <b>!</b> are set to ambush the player. Patrolling enemies will be shown in their walking animation. Robots have no walking animation, but they are always patrolling.
+
+<p>The main single player start to a level is marked with the sprite for Taradino Cassatt. Any Comm-bat spawns in a level will be marked with the sprite for Thi Barrett. She will show up all over the place, even in single player maps.
+
+<p>Flat Arrow sprites in ROTT are a bit special. If they are placed on a wall, that wall is a pushwall and can be pushed (or triggered) in that direction. If they are on the floor, they redirect other objects, such as moving walls, patrolling guards, GADs, traps, etc. Circles on a wall indicate a non-directional pushwall.
+
+<p>Some algorithms are not exactly the same as the original game. Most notably, the algorithms to decide the orientation of thin walls, and the algorithm to loft sprites in an arch. The result is fairly good, but there is room for improvement.
+</body></html>
