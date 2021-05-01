@@ -26,7 +26,7 @@ import rtl
 class debugmapper:
     """Debug Mapper to generate HTML debug maps"""
     def __init__(self, level):
-        print "Processing {} '{}'".format(level.index+1, level.name)
+        print("Processing {} '{}'".format(level.index+1, level.name))
         self.level = level
 
     def savemap(self, outpath):
@@ -74,7 +74,7 @@ class debugmapper:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print """Usage: python rottdebugmapper.py [RTL/RTC FILE]...
+        print("""Usage: python rottdebugmapper.py [RTL/RTC FILE]...
 
 Generates a debug HTML file for each level in the specified ROTT RTL or
 RTC file. Each index in the map is output into a cell in an HTML table
@@ -83,10 +83,10 @@ The map index
 The data in the walls layer, if present, as W###
 The data in the info layer, if present, as I###
 The data in the sprite layer, if present, as S###
-"""
+""")
     else:
         for filename in sys.argv[1:]:
-            print "Loading Map Data"
+            print("Loading Map Data")
             RTL = rtl.RTLFile(filename, noprocess=True)
 
             outpath = filename.replace('.', ' ') + ' DEBUG'

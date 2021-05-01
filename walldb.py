@@ -38,7 +38,7 @@ class tile(object):
                      obscure anything behind them. Always -1.
     debugnum -- the wall number for a debug tile. 0 (unused) by default.
     """
-    specialheights = [1]+range(4,10)
+    specialheights = [1]+list(range(4,10))
     debugnum = 0
 
     """ Base tile class"""
@@ -534,7 +534,7 @@ class variabletile(thintile):
 
             else:
                 # Every position between floor and ceiling
-                for i in [1] + range(7,10):
+                for i in [1] + list(range(7,10)):
                     fullimage[i].paste(midimg, (0, pos*64))
                     fullmask[i].paste(midmask, (0, pos*64))
 

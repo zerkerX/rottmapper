@@ -28,7 +28,7 @@ import struct, sys, os.path
 from PIL import Image, ImageOps
 
 # Lump types
-(UNLOADED, FLOORCEIL, SKY, WALL, PATCH, PIC, RAW, FONT, LBM) = range(9)
+(UNLOADED, FLOORCEIL, SKY, WALL, PATCH, PIC, RAW, FONT, LBM) = list(range(9))
 
 class WadFile:
     """ Wad file main class. Represents the contents of a ROTT wad file.
@@ -102,7 +102,7 @@ class WadFile:
         if self.palette != None:
             listing.write("Palette\n----------------------------\n")
             listing.write('{}\t{}\n'.format(self.palette.name, self.palette.size))
-        for block in self.data.keys():
+        for block in list(self.data.keys()):
             listing.write("\n{}\n----------------------------\n".format(block))
             for lump in self.data[block]:
                 listing.write('{}\t{}\n'.format(lump.name, lump.size))
@@ -193,7 +193,7 @@ class WadFile:
         self.createpath(outpath)
 
         debugfile = open(os.path.join(outpath, 'patchinfo.txt'), 'w')
-        for lumptype in self.data.keys():
+        for lumptype in list(self.data.keys()):
             self.createpath(os.path.join(outpath, lumptype))
             for index, lump in enumerate(self.data[lumptype]):
                 if (lump.contents == WALL or lump.contents == FLOORCEIL
@@ -253,7 +253,7 @@ class WadFile:
         tempfile.close()
 
         tempimg = Image.new("P", (16,16))
-        tempimg.putdata(range(256))
+        tempimg.putdata(list(range(256)))
         tempimg.putpalette(self.palette.data)
         tempimg.save(os.path.join(outpath, "PAL.png"))
 
@@ -639,13 +639,13 @@ class Lump:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print """Usage: python wad.py [WAD FILE]
+        print("""Usage: python wad.py [WAD FILE]
 
 Extracts the complete contents of a give ROTT wad file. Currently only
 supports DARKWAR.WAD. All images will be written as PNG files,
 other data will remain in its original format (e.g. .mid for music,
 .voc for SFX). Unidentified data will be written with no extension.
-"""
+""")
     else:
         for filename in sys.argv[1:]:
             wad = WadFile(filename)

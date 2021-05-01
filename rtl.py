@@ -26,7 +26,7 @@ import struct, sys, os.path, csv, math
 from PIL import Image, ImagePalette, ImageOps, ImageDraw
 
 # Directional constants
-(RIGHT, UP, LEFT, DOWN) = range(4) # (aka: +x, -y, -x, +y, respectively)
+(RIGHT, UP, LEFT, DOWN) = list(range(4)) # (aka: +x, -y, -x, +y, respectively)
 NODIR = -1
 
 class RTLFile:

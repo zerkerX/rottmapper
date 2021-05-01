@@ -25,7 +25,7 @@ import walldb, rtl
 from rottfont import rottfont
 
 # Glyph types
-(RIGHTARR, UPARR, LEFTARR, DOWNARR, UPDOWNARR, ELLIPSE, TEXT) = range(7)
+(RIGHTARR, UPARR, LEFTARR, DOWNARR, UPDOWNARR, ELLIPSE, TEXT) = list(range(7))
 
 class sprite(object):
     """ Base sprite class. This is used by the majority of sprites in
@@ -270,7 +270,7 @@ class indexedsprite(sprite):
         self.image = dict()
         self.mask = dict()
 
-        for info, lump in lumps.iteritems():
+        for info, lump in lumps.items():
             self.image[info] = self.spritescale(lump.data.convert("RGB"))
             self.mask[info] = self.spritescale(lump.mask)
 
@@ -284,7 +284,7 @@ class indexedsprite(sprite):
         for a given info value and map index. Image will vary based
         on info value only for an indexed sprite.
         """
-        if infoval not in self.image.keys():
+        if infoval not in list(self.image.keys()):
             infoval = 0
         return self.image[infoval]
 
@@ -293,7 +293,7 @@ class indexedsprite(sprite):
         for a given info value and map index. Image will vary based
         on info value only for an indexed sprite.
         """
-        if infoval not in self.image.keys():
+        if infoval not in list(self.image.keys()):
             infoval = 0
         return self.mask[infoval]
 

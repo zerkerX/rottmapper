@@ -30,7 +30,7 @@ class isomapper:
         """ Initialize the map generator with a given ROTT level and the
         ROTT wad file
         """
-        print "Initializing Map {} '{}'".format(level.index+1, level.name)
+        print("Initializing Map {} '{}'".format(level.index+1, level.name))
         self.level = level
         self.WAD = WAD
         self.wallinfo = walldb.walldb(WAD, level.floor)
@@ -320,7 +320,7 @@ class isomapper:
                 self.mappicture.paste(sprite.glyph, (isox-8, isoy -32))
 
         elif spriteval > 0:
-            print "Unknown Sprite {} at index {}".format(spriteval, index)
+            print("Unknown Sprite {} at index {}".format(spriteval, index))
 
 
         # Switch source identifiers
@@ -358,7 +358,7 @@ class isomapper:
                     fill=(0,108,108))
 
         if current.debugnum > 0:
-            print "Unknown Wall {} at index {}".format(debugnum, index)
+            print("Unknown Wall {} at index {}".format(debugnum, index))
 
 
     def savemap(self, outpath):
@@ -367,18 +367,18 @@ class isomapper:
         outpath -- the folder to save the map. The filename is always
                    determined by the map name
         """
-        print "Generating Map {} '{}'".format(self.level.index+1, self.level.name)
+        print("Generating Map {} '{}'".format(self.level.index+1, self.level.name))
 
         for index, wallval in enumerate(self.level.walls):
             self.drawtile(index)
 
-        print "Saving Map {} '{}'".format(self.level.index+1, self.level.name)
+        print("Saving Map {} '{}'".format(self.level.index+1, self.level.name))
         self.mappicture.crop((self.minx, self.miny, self.maxx, self.maxy)).save(
             os.path.join(outpath, "{:02}-{}.png".format(self.level.index+1, self.level.name)))
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print """Usage: python rottmapper.py [RTL/RTC FILE] ([Level Num])
+        print("""Usage: python rottmapper.py [RTL/RTC FILE] ([Level Num])
 
 Generates PNG isometric map images based on the specified ROTT RTL or
 RTC file. If [Level Num] is specified, this will only generate a map
@@ -388,12 +388,12 @@ will be generated.
 This tool requires DARKWAR.WAD from the registered version of ROTT
 to be present in the current directory. Note that on case-sensitive file
 systems the file name must also be uppercase.
-"""
+""")
     else:
         filename = sys.argv[1]
-        print "Loading Map Data"
+        print("Loading Map Data")
         RTL = rtl.RTLFile(filename)
-        print "Loading Wad Data"
+        print("Loading Wad Data")
         WAD = wad.WadFile('DARKWAR.WAD')
         WAD.cacheimages()
 
