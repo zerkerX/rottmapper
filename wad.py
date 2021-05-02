@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# Copyright 2012 Ryan Armstrong
+#!/usr/bin/python3
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
@@ -295,7 +295,7 @@ class Lump:
         """
         (self.pos, self.size, tempname) = struct.unpack(self.direntry,
             filedata.read(struct.calcsize(self.direntry)))
-        self.name = tempname.rstrip('\0')
+        self.name = tempname.decode().rstrip('\0')
         self.contents = UNLOADED
 
         # Cache file handle for future reads. Note that this will be invalid
@@ -314,7 +314,7 @@ class Lump:
         # can load directly and rotate for simplicity since it is square.
         if self.is_wall():
             self.filedata.seek(self.pos)
-            self.data = ImageOps.mirror(Image.fromstring("P", (64,64),
+            self.data = ImageOps.mirror(Image.frombytes("P", (64,64),
                 self.filedata.read(self.size)).rotate(-90))
             self.data.putpalette(palette)
             self.contents = WALL
@@ -334,7 +334,7 @@ class Lump:
         self.filedata.seek(self.pos)
         (width, height, self.orgx, self.orgy) = struct.unpack(self.floorceil,
             self.filedata.read(struct.calcsize(self.floorceil)))
-        self.data = Image.fromstring("P", (width, height),
+        self.data = Image.frombytes("P", (width, height),
             self.filedata.read(self.size-struct.calcsize(self.floorceil)))
         self.data.putpalette(palette)
         self.contents = FLOORCEIL
@@ -457,7 +457,7 @@ class Lump:
         (width, height, orgx, orgy) = struct.unpack(self.largepic,
             self.filedata.read(struct.calcsize(self.largepic)))
         if width * height + 8 == self.size:
-            self.data = Image.fromstring("P", (height, width),
+            self.data = Image.frombytes("P", (height, width),
                 self.filedata.read(self.size-struct.calcsize(self.largepic))).rotate(-90)
             self.data.putpalette(palette)
             self.contents = PIC
@@ -473,7 +473,7 @@ class Lump:
                 tempdata = [0] * width * height
                 tempread = struct.unpack('<{}B'.format(width * height),
                     self.filedata.read(width * height))
-                phasesize = width * height / 4
+                phasesize = width * height // 4
                 for phase in range(4):
                     for pos in range(phasesize):
                         tempdata[pos*4 + phase] = tempread[phasesize * phase + pos]
