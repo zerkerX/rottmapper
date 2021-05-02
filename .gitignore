@@ -2,3 +2,6 @@
 *.RTC
 *.RTL
 *_output
+__pycache__
+* RTL
+* RTL DEBUG
