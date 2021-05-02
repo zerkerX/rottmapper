@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# Copyright 2012 Ryan Armstrong
+#!/usr/bin/python3
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
@@ -113,7 +113,7 @@ class Level:
             wall_length, sprite_length, info_length,
             tempname) = struct.unpack(self.levelheader,
                 filedata.read(struct.calcsize(self.levelheader)))
-        self.name = tempname.rstrip('\0')
+        self.name = tempname.decode().rstrip('\0')
         self.index = index
 
         if self.used == 1:
@@ -154,14 +154,14 @@ class Level:
         """ Converts a switch info value (format XXYY) into the correct
         map index
         """
-        return (switchinfo / 256) + (switchinfo % 256)*128
+        return (switchinfo // 256) + (switchinfo % 256)*128
 
     @staticmethod
     def timeval(infoval):
         """ Converts a timer info value (format MMSS) into a tuple of
         (minutes, seconds)
         """
-        return ((infoval / 256), (infoval % 256))
+        return ((infoval // 256), (infoval % 256))
 
     def switchlookup(self, switchinfo):
         """ Looks up the switch letter for a given switch info value
@@ -258,7 +258,7 @@ class Level:
 
                 for checkdir in checkorder:
                     # Move to middle of perpendicular direction:
-                    pos = self.move(index, (checkdir+1)%2*3, region[(checkdir+1)%2]/2)
+                    pos = self.move(index, (checkdir+1)%2*3, region[(checkdir+1)%2]//2)
 
                     # Move to edge of this side:
                     if checkdir in [RIGHT, DOWN]:
@@ -285,7 +285,7 @@ class Level:
                         if info == 11:
                             self.info[pos] = 0xB000 + int(math.sin(i*math.pi/region[orientation%2])*(self.height-64)/4)
                         elif info == 12:
-                            self.info[pos] = 0xB000 + i*(self.height-64) / (4 * (region[orientation%2]-1) )
+                            self.info[pos] = 0xB000 + i*(self.height-64) // (4 * (region[orientation%2]-1) )
 
                         # Perpendicular direction is always processed either RIGHT or DOWN
                         pos = self.move(pos, (orientation+1)%2*3)
