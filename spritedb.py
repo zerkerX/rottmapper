@@ -1,4 +1,4 @@
-# Copyright 2012 Ryan Armstrong
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
@@ -175,7 +175,7 @@ class sprite(object):
         to wall sizing. A rough guess places sprites at about 1.5
         times larger than walls, so reduce size to 3/4 original size.
         """
-        return image.transform((image.size[0]*3/4,image.size[1]*3/4),
+        return image.transform((image.size[0]*3//4,image.size[1]*3//4),
             Image.AFFINE, (1.5, 0, 0, 0, 1.5, 0), Image.BICUBIC)
 
     @staticmethod

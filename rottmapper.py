@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# Copyright 2012 Ryan Armstrong
+#!/usr/bin/python3
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
@@ -94,7 +94,7 @@ class isomapper:
         rightobscure = -1000
         foundsolid = False
 
-        for count in range(self.level.height / 32):
+        for count in range(self.level.height // 32):
             pos = self.level.move(pos, count%2*3)
             checkwall = self.wallinfo.tiles[self.level.walls[pos]]
             if not foundsolid and checkwall.issolid(self.level.info[pos]):
@@ -114,7 +114,7 @@ class isomapper:
         pos = index
         leftobscure = -1000
         foundsolid = False
-        for count in range(self.level.height / 32):
+        for count in range(self.level.height // 32):
             pos = self.level.move(pos, (count+1)%2*3)
             checkwall = self.wallinfo.tiles[self.level.walls[pos]]
             if not foundsolid and checkwall.issolid(self.level.info[pos]):
@@ -143,7 +143,7 @@ class isomapper:
 
         # Base coordinates in the map
         x = index % 128
-        y = index / 128
+        y = index // 128
 
         # Coordinates of the top point of the isometric tile in the output
         # Map is rotated clockwise for easier drawing

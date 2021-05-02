@@ -1,4 +1,4 @@
-# Copyright 2012 Ryan Armstrong
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
@@ -87,7 +87,7 @@ class tile(object):
         """ Skews the image to the left for isometric walls.
         For UP and DOWN (i.e. y axis) directions.
         """
-        return image.transform((image.size[0],int(image.size[1]+image.size[0]/2)),
+        return image.transform((image.size[0],int(image.size[1]+image.size[0]//2)),
             Image.AFFINE, (1, 0, 0, -0.5, 1, 0), Image.BICUBIC)
 
     @staticmethod
@@ -95,8 +95,8 @@ class tile(object):
         """ Skews the image to the right for isometric wals.
         For LEFT and RIGHT (i.e. x axis) directions.
         """
-        return image.transform((image.size[0],int(image.size[1]+image.size[0]/2)),
-            Image.AFFINE, (1, 0, 0, 0.5, 1, -image.size[0]/2), Image.BICUBIC)
+        return image.transform((image.size[0],int(image.size[1]+image.size[0]//2)),
+            Image.AFFINE, (1, 0, 0, 0.5, 1, -image.size[0]//2), Image.BICUBIC)
 
     @staticmethod
     def floorskew(image):
@@ -231,7 +231,7 @@ class walltile(tile):
 
             (botimg, midimg, topimg) = self.categorizeimages(self.images)
 
-            numtiles = height/64
+            numtiles = height//64
             for pos in range(numtiles):
                 if pos==0 and numtiles > 1:
                     fullimage.paste(topimg, (0, pos*64))
@@ -348,7 +348,7 @@ class thintile(walltile):
         (botface, midface, topface) = self.categorizeimages(self.faceimages)
         (botmask, midmask, topmask) = self.categorizeimages(self.facemasks)
 
-        numtiles = height/64
+        numtiles = height//64
         for pos in range(numtiles):
             if pos==0 and numtiles > 1:
                 fullimage.paste(topface, (0, pos*64))
@@ -480,7 +480,7 @@ class variabletile(thintile):
         (botmask, botshortmask, midmask, midendmask, topmask, topendmask) = \
             self.categorizehybrid(self.facemasks)
 
-        numtiles = height/64
+        numtiles = height//64
 
         for pos in range(numtiles):
             if numtiles == 1:

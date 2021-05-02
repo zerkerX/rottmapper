@@ -1,4 +1,4 @@
-# Copyright 2012 Ryan Armstrong
+# Copyright 2012,2021 Ryan Armstrong
 #
 # This file is part of ROTT Isometric Mapper.
 #
